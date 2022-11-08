@@ -192,6 +192,33 @@ while (running == true)
         if(userVerifier.IsLoginVerified(email, password))
         {
             Logger.Log("Login Verified!");
+            Thread.Sleep(2000);
+            Console.Clear();
+
+            //Login was successful
+            User temp = userManager.GetUserByPasswordAndEmail(email, password);
+
+            if (temp!=null)
+            {
+                string message =
+                "Welcome " + temp.GetFirstName() + " " + temp.GetLastName() +
+                "\n\nWhat would you like to do?\n" +
+                "1. View Profile\n";
+
+                Logger.Log(message);
+
+                char input = Console.ReadKey(true).KeyChar;
+                Thread.Sleep(500);
+
+                if (input == '1')
+                {
+                    
+                    Console.Clear();
+                    Logger.Log(temp.ToString());
+                    Logger.Log("Press enter to exit");
+                    Console.Read();
+                }
+            }  
         }
         else
         {

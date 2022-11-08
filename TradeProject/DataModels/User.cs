@@ -36,5 +36,12 @@ namespace TradeProject.DataModels
         public string GetPassword() { return password; }
         public string GetDescription() { return description; }
         public int GetId() { return id; }
+
+        public override string ToString()
+        {
+            return "Name: "+firstName + " " + lastName +
+                "\nEmail: " + email + 
+                "\nDescription: " + description;
+        }
     }
 }
