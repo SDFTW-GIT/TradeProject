@@ -12,7 +12,7 @@
         private string password;
         private string description;
 
-        //Default Constructor
+        //Full Constructor
         public User(string firstName, string lastName, string email, string password, string description)
         {
             this.firstName = firstName;
@@ -43,7 +43,8 @@
         {
             return firstName + "|" + lastName +
                 "|" + email + 
-                "|" + password;
+                "|" + password +
+                "|" + description;
         }
     }
 }

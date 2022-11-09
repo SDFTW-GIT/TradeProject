@@ -34,7 +34,7 @@ namespace TradeProject.Utilites
             return content;
         }
 
-        public static int GetLines(string path)
+        public static int GetCount(string path)
         {
             int lines = 0;
 
@@ -56,6 +56,34 @@ namespace TradeProject.Utilites
             }
 
             return lines;
+        }
+
+        public static string GetEntry(string path, int index)
+        {
+            int count = 0;
+            int lines = GetCount(path);
+            string entry = string.Empty;
+
+            try
+            {
+                using (StreamReader streamReader = new(path))
+                {
+                    string line = string.Empty;
+
+                    while ((line = streamReader.ReadLine()) != null && count < lines )
+                    {
+                        if (index == count)
+                            entry = line;
+                        count++;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Log(ex.Message);
+            }
+
+            return entry;
         }
 
         //Write to CSV File

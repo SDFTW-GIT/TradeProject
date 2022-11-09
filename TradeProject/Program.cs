@@ -9,6 +9,7 @@ bool running = false;
 
 //Testing
 Console.Write(FileOperations.ReadFile(DatabaseConnection.DATABASE_PATH));
+Console.WriteLine(FileOperations.GetCount(DatabaseConnection.DATABASE_PATH));
 Thread.Sleep(7000);
 
 //Start of Program

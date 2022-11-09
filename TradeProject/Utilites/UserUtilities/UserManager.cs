@@ -7,6 +7,7 @@ namespace TradeProject.Utilites.UserUtilities
         private readonly User[] users = new User[5];
         private int index = 0;
 
+        //When initialized / created
         public UserManager() 
         {
             if(FileOperations.ReadFile(DatabaseConnection.DATABASE_PATH) == null || 
@@ -16,9 +17,21 @@ namespace TradeProject.Utilites.UserUtilities
             }
             else
             {
-
+                for (int i = 0; i < FileOperations.GetCount(DatabaseConnection.DATABASE_PATH) && i < users.Length; i++)
+                {
+                    string entry = FileOperations.GetEntry(DatabaseConnection.DATABASE_PATH, i);
+                    users[i] = ConvertToUser(entry);
+                }
             }
 
+        }
+
+        private User ConvertToUser(string entry)
+        {
+
+            string[] parts = entry.Split("|");
+            return new User(parts[0], parts[1], parts[2], parts[3], parts[4]);
+            
         }
 
         public void AddUser(User user)
