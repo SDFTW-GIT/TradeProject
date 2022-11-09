@@ -31,11 +31,19 @@
         public string GetDescription() { return description; }
         public int GetId() { return id; }
 
+        public string GetDetails()
+        {
+            return "First Name: " + firstName +
+                "\nLast Name: " + lastName +
+                "\nEmail: " + email +
+                "\n\nDescription: " + description;
+        }
+
         public override string ToString()
         {
-            return "Name: "+firstName + " " + lastName +
-                "\nEmail: " + email + 
-                "\nDescription: " + description;
+            return firstName + "|" + lastName +
+                "|" + email + 
+                "|" + password;
         }
     }
 }

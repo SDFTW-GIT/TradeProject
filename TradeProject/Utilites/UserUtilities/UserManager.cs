@@ -4,20 +4,56 @@ namespace TradeProject.Utilites.UserUtilities
 {
     public class UserManager
     {
-        private readonly User[] users = new User[2];
+        private readonly User[] users = new User[5];
         private int index = 0;
 
-        public void AddUser(User user)
+        public UserManager() 
         {
-            if (index != users.Length - 1)
+            if(FileOperations.ReadFile(DatabaseConnection.DATABASE_PATH) == null || 
+                FileOperations.ReadFile(DatabaseConnection.DATABASE_PATH) == string.Empty)
             {
-                users[index] = user;
-                index++;
+                //Do as usual
             }
             else
             {
-                Logger.Log(index + "");
+
             }
+
+        }
+
+        public void AddUser(User user)
+        {
+            if(users[0] == null)
+            {
+                if (index != users.Length - 1)
+                {
+                    users[index] = user;
+                    index++;
+                    FileOperations.WriteFile(DatabaseConnection.DATABASE_PATH, new string[] {user.ToString()});
+                }
+                else
+                {
+                    Logger.Log(index + "");
+                }
+            }
+            else
+            {
+                if (index != users.Length - 1)
+                {
+                    users[index] = user;
+                    index++;
+                    AddUserToDatabase(user);
+                }
+                else
+                {
+                    Logger.Log(index + "");
+                }
+            }
+        }
+
+        private void AddUserToDatabase(User user)
+        {
+            FileOperations.AddToFile(DatabaseConnection.DATABASE_PATH, user.ToString());
         }
 
         public User GetUserByPasswordAndEmail(string email, string password) 

@@ -7,6 +7,9 @@ UserVerifier userVerifier = new(userManager);
 
 bool running = false;
 
+//Testing
+Console.Write(FileOperations.ReadFile(DatabaseConnection.DATABASE_PATH));
+Thread.Sleep(7000);
 
 //Start of Program
 while (true)
@@ -203,18 +206,20 @@ while (running == true)
                 string message =
                 "Welcome " + temp.GetFirstName() + " " + temp.GetLastName() +
                 "\n\nWhat would you like to do?\n" +
-                "1. View Profile\n";
+                "1. View Profile\n" +
+                "2. Create Trade\n" +
+                "3. See Global Trades\n" +
+                "4. ";
 
                 Logger.Log(message);
 
                 char input = Console.ReadKey(true).KeyChar;
-                Thread.Sleep(500);
 
+                //View Profile
                 if (input == '1')
-                {
-                    
+                {   
                     Console.Clear();
-                    Logger.Log(temp.ToString());
+                    Logger.Log(temp.GetDetails());
                     Logger.Log("Press enter to exit");
                     Console.Read();
                 }
