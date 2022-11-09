@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TradeProject.Utilites
+namespace TradeProject.Utilites.Database
 {
     public class DatabaseConnection
     {

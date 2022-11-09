@@ -1,37 +1,40 @@
 ﻿using TradeProject.DataModels;
+using TradeProject.Utilites.Database;
 
-namespace TradeProject.Utilites.UserUtilities
+namespace TradeProject.Utilites.Users
 {
     public class UserManager
     {
-        private readonly User[] users = new User[5];
-        private int index = 0;
+        private readonly string database_path = DatabaseConnection.DATABASE_PATH;
+
+        private readonly User[] users;
+        private int index;
 
         //When initialized / created
         public UserManager() 
         {
-            if(FileOperations.ReadFile(DatabaseConnection.DATABASE_PATH) == null || 
-                FileOperations.ReadFile(DatabaseConnection.DATABASE_PATH) == string.Empty)
+
+
+            if(FileOperations.GetFileContents(database_path) == null || 
+                FileOperations.GetFileContents(database_path) == string.Empty)
             {
-                //Do as usual
+                //No entries
+                users = new User[10];
+                index = 0;
             }
             else
             {
-                for (int i = 0; i < FileOperations.GetCount(DatabaseConnection.DATABASE_PATH) && i < users.Length; i++)
+                //Initialize the array if there are entries
+                users = new User[FileOperations.GetCount(database_path)+10];
+                index = users.Length-10;
+
+                for (int i = 0; i < FileOperations.GetCount(database_path) && i < users.Length; i++)
                 {
-                    string entry = FileOperations.GetEntry(DatabaseConnection.DATABASE_PATH, i);
-                    users[i] = ConvertToUser(entry);
+                    string entry = FileOperations.GetEntry(database_path, i);
+                    users[i] = DatabaseOperations.ConvertStringToUser(entry);
                 }
             }
 
-        }
-
-        private User ConvertToUser(string entry)
-        {
-
-            string[] parts = entry.Split("|");
-            return new User(parts[0], parts[1], parts[2], parts[3], parts[4]);
-            
         }
 
         public void AddUser(User user)
@@ -42,7 +45,10 @@ namespace TradeProject.Utilites.UserUtilities
                 {
                     users[index] = user;
                     index++;
-                    FileOperations.WriteFile(DatabaseConnection.DATABASE_PATH, new string[] {user.ToString()});
+                    //Add the user to the database
+                    FileOperations.WriteFile(database_path, new string[] {user.ToString()});
+                    Logger.Log("Added a new user to a empty database!");
+                    Thread.Sleep(3000);
                 }
                 else
                 {
@@ -55,18 +61,15 @@ namespace TradeProject.Utilites.UserUtilities
                 {
                     users[index] = user;
                     index++;
-                    AddUserToDatabase(user);
+                    DatabaseOperations.AddUserToDatabase(user);
+                    Logger.Log("Added a new user to the database!");
+                    Thread.Sleep(3000);
                 }
                 else
                 {
                     Logger.Log(index + "");
                 }
             }
-        }
-
-        private void AddUserToDatabase(User user)
-        {
-            FileOperations.AddToFile(DatabaseConnection.DATABASE_PATH, user.ToString());
         }
 
         public User GetUserByPasswordAndEmail(string email, string password) 

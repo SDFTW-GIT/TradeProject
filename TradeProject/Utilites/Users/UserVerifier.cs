@@ -1,6 +1,6 @@
 ﻿using TradeProject.DataModels;
 
-namespace TradeProject.Utilites.UserUtilities
+namespace TradeProject.Utilites.Users
 {
     public class UserVerifier
     {

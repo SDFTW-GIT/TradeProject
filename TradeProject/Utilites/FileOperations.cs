@@ -10,9 +10,35 @@ namespace TradeProject.Utilites
     public class FileOperations
     {
         //Read a CSV File
-        public static string ReadFile(string path)
+        public static string[] GetFileContentsArray(string path)
         {
-            string content = null;
+            string[] content = new string[GetCount(path)];
+            int count = 0;
+
+            try
+            {
+                using (StreamReader streamReader = new(path))
+                {
+                    string line = string.Empty;
+
+                    while ((line = streamReader.ReadLine()) != null)
+                    {
+                        content[count] = line;
+                        count++;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Log(ex.Message);
+            }
+
+            return content;
+        }
+
+        public static string GetFileContents(string path)
+        {
+            string content = string.Empty;
 
             try
             {
@@ -100,7 +126,16 @@ namespace TradeProject.Utilites
 
         public static void AddToFile(string path, string content)
         {
-            WriteFile(path, (new string[] {ReadFile(path), content}));
+            string[] preContents = GetFileContentsArray(path);
+
+            string[] newContents = new string[preContents.Length + 1];
+            for(int i = 0; i < preContents.Length; i++)
+            {
+                newContents[i] = preContents[i];
+            }
+            newContents[newContents.Length - 1] = content;
+
+            WriteFile(path, newContents);
         }
     }
 }

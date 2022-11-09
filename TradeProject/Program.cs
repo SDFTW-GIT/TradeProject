@@ -1,16 +1,12 @@
 ﻿using TradeProject.DataModels;
 using TradeProject.Utilites;
-using TradeProject.Utilites.UserUtilities;
+using TradeProject.Utilites.Database;
+using TradeProject.Utilites.Users;
 
 UserManager userManager = new();
 UserVerifier userVerifier = new(userManager);
 
 bool running = false;
-
-//Testing
-Console.Write(FileOperations.ReadFile(DatabaseConnection.DATABASE_PATH));
-Console.WriteLine(FileOperations.GetCount(DatabaseConnection.DATABASE_PATH));
-Thread.Sleep(7000);
 
 //Start of Program
 while (true)
@@ -176,7 +172,7 @@ while (running == true)
 
         //Successful creation of a new user.
         userManager.AddUser(new User(firstName, lastName, email, password, description));
-        Logger.Log("User Added!");
+        Logger.Log("User Successfully Added!");
         Thread.Sleep(1500);
         Console.Clear();
     }
@@ -190,10 +186,12 @@ while (running == true)
         Logger.Log("Enter your email:");
         email = Console.ReadLine();
 
+        Thread.Sleep(300);
+
         Logger.Log("Enter your password:");
         password= Console.ReadLine();
 
-        if(userVerifier.IsLoginVerified(email, password))
+        if (userVerifier.IsLoginVerified(email, password))
         {
             Logger.Log("Login Verified!");
             Thread.Sleep(2000);
@@ -201,6 +199,7 @@ while (running == true)
 
             //Login was successful
             User temp = userManager.GetUserByPasswordAndEmail(email, password);
+            
 
             if (temp!=null)
             {
@@ -222,7 +221,7 @@ while (running == true)
                     Console.Clear();
                     Logger.Log(temp.GetDetails());
                     Logger.Log("Press enter to exit");
-                    Console.Read();
+                    Console.ReadLine();
                 }
             }  
         }
