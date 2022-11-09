@@ -1,6 +1,5 @@
 ﻿using TradeProject.DataModels;
 using TradeProject.Utilites;
-using TradeProject.Utilites.Database;
 using TradeProject.Utilites.Users;
 
 UserManager userManager = new();

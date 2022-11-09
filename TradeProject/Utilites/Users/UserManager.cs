@@ -47,7 +47,6 @@ namespace TradeProject.Utilites.Users
                     index++;
                     //Add the user to the database
                     FileOperations.WriteFile(database_path, new string[] {user.ToString()});
-                    Logger.Log("Added a new user to a empty database!");
                     Thread.Sleep(3000);
                 }
                 else
@@ -62,7 +61,6 @@ namespace TradeProject.Utilites.Users
                     users[index] = user;
                     index++;
                     DatabaseOperations.AddUserToDatabase(user);
-                    Logger.Log("Added a new user to the database!");
                     Thread.Sleep(3000);
                 }
                 else
